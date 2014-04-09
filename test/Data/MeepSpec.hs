@@ -3,7 +3,9 @@ module Data.MeepSpec
   ) where
 
 import           Control.Lens
-import           Test.Hspec
+import           Control.Exception (evaluate)
+import           Control.Exception.Lens (_ErrorCall)
+import           Test.Hspec.Lens
 import           Test.Hspec.QuickCheck
 
 import           Data.Meep (Meep)
@@ -12,19 +14,10 @@ import qualified Data.Meep as Meep
 
 spec :: Spec
 spec = do
-  describe "fromMaybe/toMaybe" $ do
-    prop "toMaybe . fromMaybe is an identity" $ \x ->
-      (Meep.toMaybe . Meep.fromMaybe) x == (x :: Maybe (Int, Char))
-
-    prop "fromMaybe . toMaybe is an identity" $ \x ->
-      (Meep.fromMaybe . Meep.toMaybe) x == (x :: Meep Int Char)
-
-  describe "size" $ do
-    it "is 0 for an empty Meep" $
-      Meep.size Meep.empty `shouldBe` 0
-
-    it "is 1 for a non-empty Meep" $
-      Meep.size (Meep.singleton 1 'p') `shouldBe` 1
+  context "general facts" $
+    it "is strict in keys" $
+      evaluate (Meep.singleton (error "strict in keys!" :: Bool) 4) `shouldThrow`
+        _ErrorCall.only "strict in keys!"
 
   context "lensy interface" $ do
     it "can insert into an empty Meep" $
@@ -56,3 +49,17 @@ spec = do
 
     it "can do unsuccessful member checks" $
       has (ix 8) (Meep.singleton 3 'w') `shouldBe` False
+
+  describe "fromMaybe/toMaybe" $ do
+    prop "toMaybe . fromMaybe is an identity" $ \x ->
+      (Meep.toMaybe . Meep.fromMaybe) x == (x :: Maybe (Int, Char))
+
+    prop "fromMaybe . toMaybe is an identity" $ \x ->
+      (Meep.fromMaybe . Meep.toMaybe) x == (x :: Meep Int Char)
+
+  describe "size" $ do
+    it "is 0 for an empty Meep" $
+      Meep.size Meep.empty `shouldBe` 0
+
+    it "is 1 for a non-empty Meep" $
+      Meep.size (Meep.singleton 1 'p') `shouldBe` 1

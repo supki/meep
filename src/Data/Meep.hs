@@ -7,14 +7,19 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
+-- | A "Data.Map.Map"-like structure but it only contains up to one key-value pair
+--
+-- A 'Meep' is strict in the key.
+--
+-- @Meep k a@ is isomorphic to @Maybe (k, a)@ with 'maybeing' witnessing the isomorphism
 module Data.Meep
 #ifdef TEST
   ( Meep(..)
 #else
   ( Meep
 #endif
-  , singleton
   , empty
+  , singleton
   , size
   , null
   , fromMaybe
@@ -37,7 +42,8 @@ import Test.QuickCheck (Arbitrary(..))
 
 {-# ANN module "HLint: ignore Use fromMaybe" #-}
 
-data Meep k a = Empty | Meep k a
+-- | A Meep from key @k@ to value @a@
+data Meep k a = Empty | Meep !k a
     deriving (Eq, Ord, Functor, Foldable, Traversable, Typeable, Data, Generic)
 
 instance (Show k, Show a) => Show (Meep k a) where
@@ -76,11 +82,13 @@ instance (Arbitrary k, Arbitrary a) => Arbitrary (Meep k a) where
   arbitrary = fmap fromMaybe arbitrary
 #endif
 
-singleton :: k -> a -> Meep k a
-singleton = Meep
-
+-- | /O(1)/. An empty 'Meep'
 empty :: Meep k a
 empty = Empty
+
+-- | /O(1)/. A 'Meep' with a single key-value pair
+singleton :: k -> a -> Meep k a
+singleton = Meep
 
 size :: Num b => Meep k a -> b
 size = bool 1 0 . null
