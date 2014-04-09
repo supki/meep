@@ -34,6 +34,7 @@ import Control.Lens
 import Data.Monoid (mempty)
 import Data.Data (Data, Typeable)
 import Data.Foldable (Foldable)
+import Data.Semigroup (Semigroup(..))
 import GHC.Generics (Generic)
 import Prelude hiding (null, lookup)
 #ifdef TEST
@@ -48,6 +49,12 @@ data Meep k a = Empty | Meep !k a
 
 instance (Show k, Show a) => Show (Meep k a) where
   showsPrec p m = showParen (p > 10) (showString "fromMaybe " . shows (toMaybe m))
+
+-- | 'Meep's intersection
+instance (Eq k, Semigroup a) => Semigroup (Meep k a) where
+  Empty    <> _          = Empty
+  _        <> Empty      = Empty
+  Meep k v <> Meep k' v' = bool Empty (Meep k (v <> v')) (k == k')
 
 instance Eq k => Ixed (Meep k a) where
   ix = ixAt
