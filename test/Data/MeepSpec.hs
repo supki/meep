@@ -47,3 +47,12 @@ spec = do
 
     it "can unsuccessfully lookup a key in an empty Meep" $
       (Meep.empty ^? ix 3) `shouldBe` (Nothing :: Maybe Char)
+
+    it "can do lookups with the default value" $
+      (Meep.singleton 3 'w' ^. at 4.non 't') `shouldBe` 't'
+
+    it "can do successful member checks" $
+      has (ix 3) (Meep.singleton 3 'w') `shouldBe` True
+
+    it "can do unsuccessful member checks" $
+      has (ix 8) (Meep.singleton 3 'w') `shouldBe` False

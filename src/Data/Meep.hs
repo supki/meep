@@ -22,12 +22,6 @@ module Data.Meep
   , maybeing
   , keys
   , elems
-  , insert
-  , lookup
-  , lookupWithDefault
-  , member
-  , notMember
-  , delete
   ) where
 
 import Control.Applicative (pure)
@@ -35,7 +29,6 @@ import Control.Lens
 import Data.Monoid (mempty)
 import Data.Data (Data, Typeable)
 import Data.Foldable (Foldable)
-import Data.Maybe (isJust, isNothing)
 import GHC.Generics (Generic)
 import Prelude hiding (null, lookup)
 #ifdef TEST
@@ -121,15 +114,6 @@ insert k a x@(Meep k' _) = bool x (Meep k a) (k == k')
 lookup :: Eq k => k -> Meep k a -> Maybe a
 lookup _  Empty      = Nothing
 lookup k' (Meep k a) = bool Nothing (Just a) (k == k')
-
-lookupWithDefault :: Eq k => a -> k -> Meep k a -> a
-lookupWithDefault a k = maybe a id . lookup k
-
-member :: Eq k => k -> Meep k a -> Bool
-member k = isJust . lookup k
-
-notMember :: Eq k => k -> Meep k a -> Bool
-notMember k = isNothing . lookup k
 
 delete :: Eq k => k -> Meep k a -> Meep k a
 delete _  Empty        = Empty
