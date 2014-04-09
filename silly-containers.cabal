@@ -47,3 +47,18 @@ test-suite spec
     Data.MeepSpec
   cpp-options:
     -DTEST
+
+test-suite doctest
+  default-language:
+    Haskell2010
+  type:
+    exitcode-stdio-1.0
+  build-depends:
+      base >= 4.6
+    , doctest >= 0.9
+  hs-source-dirs:
+    test
+  main-is:
+    Doctest.hs
+  cpp-options:
+    -DTEST
