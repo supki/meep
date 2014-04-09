@@ -29,6 +29,7 @@ library
     Haskell2010
   build-depends:
       base       >= 4.6 && < 5
+    , bifunctors >= 4   && < 5
     , lens       >= 4   && < 5
     , semigroups >= 0.9 && < 1
   hs-source-dirs:
@@ -43,6 +44,7 @@ test-suite spec
     exitcode-stdio-1.0
   build-depends:
       base >= 4.6
+    , bifunctors
     , hspec
     , hspec-expectations-lens >= 0.3
     , lens

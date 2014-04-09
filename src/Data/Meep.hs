@@ -29,12 +29,15 @@ module Data.Meep
   , elems
   ) where
 
-import Control.Applicative (pure)
+import Control.Applicative (pure, liftA2)
 import Control.Lens
+import Data.Bifoldable (Bifoldable(..))
+import Data.Bifunctor.Apply (Biapply(..))
+import Data.Bitraversable (Bitraversable(..))
 import Data.Monoid (mempty)
 import Data.Data (Data, Typeable)
 import Data.Foldable (Foldable)
-import Data.Semigroup (Semigroup(..))
+import Data.Semigroup (Semigroup(..), Monoid(..))
 import GHC.Generics (Generic)
 import Prelude hiding (null, lookup)
 #ifdef TEST
@@ -55,6 +58,23 @@ instance (Eq k, Semigroup a) => Semigroup (Meep k a) where
   Empty    <> _          = Empty
   _        <> Empty      = Empty
   Meep k v <> Meep k' v' = bool Empty (Meep k (v <> v')) (k == k')
+
+instance Bifunctor Meep where
+  bimap _ _ Empty = Empty
+  bimap f g (Meep k v) = Meep (f k) (g v)
+
+instance Biapply Meep where
+  Empty      <<.>> _        = Empty
+  _          <<.>> Empty    = Empty
+  Meep fk fv <<.>> Meep k v = Meep (fk k) (fv v)
+
+instance Bifoldable Meep where
+  bifoldMap _ _ Empty = mempty
+  bifoldMap f g (Meep k v) = f k `mappend` g v
+
+instance Bitraversable Meep where
+  bitraverse _ _ Empty = pure Empty
+  bitraverse f g (Meep k v) = liftA2 Meep (f k) (g v)
 
 instance Eq k => Ixed (Meep k a) where
   ix = ixAt
