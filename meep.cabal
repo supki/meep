@@ -1,8 +1,9 @@
-name:                silly-containers
+name:                meep
 version:             0.1.0.0
 synopsis:
-  Silly containers
--- description:         
+  A silly container
+description:
+  A @Map@-like structure that contains up to one key-value pair
 license:             BSD3
 license-file:        LICENSE
 author:              Matvey Aksenov
@@ -13,6 +14,10 @@ cabal-version:       >= 1.10
 extra-source-files:
   README.md
   CHANGELOG.md
+
+source-repository head
+  type:     git
+  location: https://github.com/supki/meep
 
 library
   default-language:

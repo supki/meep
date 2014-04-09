@@ -7,7 +7,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
--- | A "Data.Map.Map"-like structure but it only contains up to one key-value pair
+-- | A @Map@-like structure that contains up to one key-value pair
 --
 -- A 'Meep' is strict in the key.
 --
