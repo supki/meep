@@ -19,6 +19,11 @@ source-repository head
   type:     git
   location: https://github.com/supki/meep
 
+source-repository this
+  type:     git
+  location: https://github.com/supki/meep
+  tag:      0.1.0.0
+
 library
   default-language:
     Haskell2010
