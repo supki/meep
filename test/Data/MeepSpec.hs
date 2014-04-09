@@ -56,10 +56,3 @@ spec = do
 
     prop "fromMaybe . toMaybe is an identity" $ \x ->
       (Meep.fromMaybe . Meep.toMaybe) x == (x :: Meep Int Char)
-
-  describe "size" $ do
-    it "is 0 for an empty Meep" $
-      Meep.size Meep.empty `shouldBe` 0
-
-    it "is 1 for a non-empty Meep" $
-      Meep.size (Meep.singleton 1 'p') `shouldBe` 1
