@@ -54,7 +54,7 @@ data Meep k a = Empty | Meep !k a
     deriving (Eq, Ord, Functor, Foldable, Traversable, Typeable, Data, Generic)
 
 instance (Show k, Show a) => Show (Meep k a) where
-  showsPrec p m = showParen (p > 10) (showString "fromMaybe " . shows (toMaybe m))
+  showsPrec p m = showParen (p > 9) (showString "fromMaybe " . showsPrec 11 (toMaybe m))
 
 -- | 'Meep's intersection
 instance (Eq k, Semigroup a) => Semigroup (Meep k a) where
