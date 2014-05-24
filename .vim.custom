@@ -15,6 +15,7 @@ let g:hdevtools_options = s:hdevtools_options
 	\ (
 	\ [ '-isrc'
 	\ , '-itest'
+	\ , '-idist/build/autogen'
 	\ , '-O0'
 	\ , '-fdefer-type-errors'
 	\ , '-Wall'

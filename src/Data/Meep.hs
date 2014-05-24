@@ -25,6 +25,9 @@ module Data.Meep
   , fromMaybe
   , toMaybe
   , maybeing
+  , intersection
+  , intersectionWith
+  , intersectionWithKey
   , keys
   , elems
   ) where
@@ -190,6 +193,36 @@ keys (Meep k _) = Just k
 elems :: Meep k a -> Maybe a
 elems Empty      = Nothing
 elems (Meep _ a) = Just a
+
+-- | /O(1)/. Intersection of two 'Meep's
+--
+-- @
+-- intersection ≡ 'intersectionWith' 'const'
+-- @
+intersection :: Eq k => Meep k a -> Meep k b -> Meep k a
+intersection = intersectionWith const
+
+-- | /O(1)/. Intersection of two 'Meep's with a combining function
+--
+-- >>> intersectionWith (+) (Meep "hello" 4) (Meep "hello" 7)
+-- fromMaybe (Just ("hello",11))
+--
+-- >>> intersectionWith (+) (Meep "hello" 4) (Meep "bye" 7)
+-- fromMaybe Nothing
+--
+-- >>> intersectionWith (+) Empty (Meep "hello" 7)
+-- fromMaybe Nothing
+--
+-- @
+-- intersectionWith f ≡ intersectionWithKey (const f)
+-- @
+intersectionWith :: Eq k => (a -> b -> c) -> Meep k a -> Meep k b -> Meep k c
+intersectionWith f = intersectionWithKey (const f)
+
+-- | /O(1)/. Intersection of two 'Meep's with a combining function
+intersectionWithKey :: Eq k => (k -> a -> b -> c) -> Meep k a -> Meep k b -> Meep k c
+intersectionWithKey f (Meep k a) (Meep k' b) | k == k' = Meep k (f k a b)
+intersectionWithKey _ _          _                     = Empty
 
 insert :: Eq k => k -> a -> Meep k a -> Meep k a
 insert k a Empty         = Meep k a
