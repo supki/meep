@@ -37,6 +37,7 @@ import Control.Lens
 import Data.Bifoldable (Bifoldable(..))
 import Data.Bifunctor.Apply (Biapply(..))
 import Data.Bitraversable (Bitraversable(..))
+import Data.Functor.Apply (Apply(..))
 import Data.Monoid (mempty)
 import Data.Data (Data, Typeable)
 import Data.Foldable (Foldable)
@@ -61,6 +62,9 @@ instance (Eq k, Semigroup a) => Semigroup (Meep k a) where
   Empty    <> _          = Empty
   _        <> Empty      = Empty
   Meep k v <> Meep k' v' = bool Empty (Meep k (v <> v')) (k == k')
+
+instance Eq k => Apply (Meep k) where
+  (<.>) = intersectionWith id
 
 instance Bifunctor Meep where
   bimap _ _ Empty = Empty
