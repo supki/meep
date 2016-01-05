@@ -33,7 +33,7 @@ module Data.Meep
   ) where
 
 import Control.Applicative (pure, liftA2)
-import Control.Lens
+import Control.Lens hiding (Empty)
 import Data.Bifoldable (Bifoldable(..))
 import Data.Bifunctor.Apply (Biapply(..))
 import Data.Bitraversable (Bitraversable(..))
