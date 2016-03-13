@@ -1,3 +1,8 @@
+0.1.2.1
+=======
+
+  * Compatibility with latest `lens`
+
 0.1.2.0
 =======
 
