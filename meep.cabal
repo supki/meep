@@ -4,7 +4,7 @@ synopsis:
   A silly container
 description:
   A @Map@-like structure that contains up to one key-value pair
-license:             BSD3
+license:             BSD2
 license-file:        LICENSE
 author:              Matvey Aksenov
 maintainer:          matvey.aksenov@gmail.com
