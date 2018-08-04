@@ -41,7 +41,9 @@ import Data.Functor.Apply (Apply(..))
 import Data.Monoid (mempty)
 import Data.Data (Data, Typeable)
 import Data.Foldable (Foldable)
-import Data.Semigroup (Semigroup(..), Monoid(..))
+#if MIN_VERSION_base(4,9,0)
+import           Data.Semigroup (Semigroup(..))
+#endif
 import GHC.Generics (Generic)
 import Prelude hiding (null, lookup)
 #ifdef TEST

@@ -1,0 +1,6 @@
+resolver: lts-11.19
+packages:
+  - '.'
+allow-newer: true
+extra-deps:
+  - hspec-expectations-lens-0.4.0
