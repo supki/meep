@@ -1,5 +1,5 @@
 name:                meep
-version:             0.1.2.1
+version:             0.1.2.2
 synopsis:
   A silly container
 description:
@@ -23,7 +23,7 @@ source-repository head
 source-repository this
   type:     git
   location: https://github.com/supki/meep
-  tag:      0.1.2.1
+  tag:      0.1.2.2
 
 library
   default-language:
